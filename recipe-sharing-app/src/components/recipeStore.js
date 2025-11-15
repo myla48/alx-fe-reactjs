@@ -10,13 +10,16 @@ const useRecipeStore = create((set) => ({
       recipes: [...state.recipes, newRecipe],
     })),
 
-  // Action: delete a recipe by ID
+  // Action: replace the entire recipe list
+  setRecipes: (recipes) => set({ recipes }),
+
+  // (Optional for later tasks) delete a recipe by ID
   deleteRecipe: (id) =>
     set((state) => ({
       recipes: state.recipes.filter((recipe) => recipe.id !== id),
     })),
 
-  // Action: update a recipe by ID
+  // (Optional for later tasks) update a recipe by ID
   updateRecipe: (id, updatedRecipe) =>
     set((state) => ({
       recipes: state.recipes.map((recipe) =>
