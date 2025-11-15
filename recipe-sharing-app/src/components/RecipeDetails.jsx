@@ -10,6 +10,7 @@ const RecipeDetails = ({ recipeId }) => {
   return (
     <div>
       <h1>{recipe.title}</h1>
+      <p><strong>ID:</strong> {recipe.id}</p>
       <p>{recipe.description}</p>
     </div>
   );
