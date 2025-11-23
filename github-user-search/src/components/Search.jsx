@@ -1,6 +1,6 @@
 // src/components/Search.jsx
 import React, { useState } from "react";
-import { searchUsers } from "../services/githubService";
+import { searchUsers } from "../services/githubService"; // ✅ advanced search function
 
 function Search() {
   const [query, setQuery] = useState("");
@@ -23,6 +23,7 @@ function Search() {
     }
 
     try {
+      // ✅ Use searchUsers instead of fetchUserData
       const results = await searchUsers(query, location, minRepos);
       if (results.length === 0) {
         setError("Looks like we cant find the user");
