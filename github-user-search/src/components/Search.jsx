@@ -15,7 +15,7 @@ function Search() {
     setLoading(true);
 
     if (!username) {
-      setError("Please enter a GitHub username.");
+      setError("Looks like we cant find the user");
       setLoading(false);
       return;
     }
@@ -24,7 +24,7 @@ function Search() {
       const data = await fetchUserData(username);
       setUser(data);
     } catch (err) {
-      setError("Looks like we can't find the user.");
+      setError("Looks like we cant find the user");
     } finally {
       setLoading(false);
     }
