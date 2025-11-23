@@ -6,13 +6,17 @@ function Search() {
   const [username, setUsername] = useState("");
   const [user, setUser] = useState(null);
   const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false);
 
-  const handleSearch = async () => {
+  const handleSubmit = async (e) => {
+    e.preventDefault(); // prevent page reload
     setError("");
     setUser(null);
+    setLoading(true);
 
     if (!username) {
       setError("Please enter a GitHub username.");
+      setLoading(false);
       return;
     }
 
@@ -20,23 +24,28 @@ function Search() {
       const data = await fetchUserData(username);
       setUser(data);
     } catch (err) {
-      setError("User not found or API error.");
+      setError("Looks like we can't find the user.");
+    } finally {
+      setLoading(false);
     }
   };
 
   return (
     <div style={styles.container}>
-      <input
-        type="text"
-        placeholder="Enter GitHub username"
-        value={username}
-        onChange={(e) => setUsername(e.target.value)}
-        style={styles.input}
-      />
-      <button onClick={handleSearch} style={styles.button}>
-        Search
-      </button>
+      <form onSubmit={handleSubmit} style={styles.form}>
+        <input
+          type="text"
+          placeholder="Enter GitHub username"
+          value={username}
+          onChange={(e) => setUsername(e.target.value)}
+          style={styles.input}
+        />
+        <button type="submit" style={styles.button}>
+          Search
+        </button>
+      </form>
 
+      {loading && <p>Loading...</p>}
       {error && <p style={styles.error}>{error}</p>}
 
       {user && (
@@ -55,14 +64,9 @@ function Search() {
 }
 
 const styles = {
-  container: {
-    marginTop: "20px",
-  },
-  input: {
-    padding: "10px",
-    width: "250px",
-    marginRight: "10px",
-  },
+  container: { marginTop: "20px" },
+  form: { marginBottom: "20px" },
+  input: { padding: "10px", width: "250px", marginRight: "10px" },
   button: {
     padding: "10px 15px",
     backgroundColor: "#0366d6",
@@ -70,17 +74,9 @@ const styles = {
     border: "none",
     cursor: "pointer",
   },
-  error: {
-    color: "red",
-    marginTop: "10px",
-  },
-  result: {
-    marginTop: "20px",
-  },
-  avatar: {
-    width: "100px",
-    borderRadius: "50%",
-  },
+  error: { color: "red", marginTop: "10px" },
+  result: { marginTop: "20px" },
+  avatar: { width: "100px", borderRadius: "50%" },
 };
 
 export default Search;
