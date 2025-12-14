@@ -4,6 +4,9 @@
   "preview": "vite preview",
   "test": "jest"
 }
+"scripts": {
+  "test": "jest"
+}
 
 
 {
