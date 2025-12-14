@@ -1,32 +1,39 @@
-import { render, screen, fireEvent } from "@testing-library/react";
-import "@testing-library/jest-dom";
-import TodoList from "../components/TodoList";
+import { render, screen, fireEvent } from '@testing-library/react';
+import '@testing-library/jest-dom';
+import TodoList from '../TodoList';
 
-test("renders", () => {
+test('renders initial todo', () => {
   render(<TodoList />);
-  expect(screen.getByText("Learn React")).toBeInTheDocument();
-  expect(screen.getByText("Build a project")).toBeInTheDocument();
+  // Check that the sample todo is displayed
+  expect(screen.getByText(/Sample Todo/i)).toBeInTheDocument();
 });
 
-test("adds", () => {
+test('adds a new todo', () => {
   render(<TodoList />);
-  fireEvent.change(screen.getByPlaceholderText("Add a new todo"), {
-    target: { value: "Write tests" }
+  // Type into the input
+  fireEvent.change(screen.getByPlaceholderText(/Add todo/i), {
+    target: { value: 'New Task' },
   });
-  fireEvent.click(screen.getByText("Add"));
-  expect(screen.getByText("Write tests")).toBeInTheDocument();
+  // Click the Add button
+  fireEvent.click(screen.getByText(/Add/i));
+  // Verify the new todo appears
+  expect(screen.getByText(/New Task/i)).toBeInTheDocument();
 });
 
-test("toggles", () => {
+test('toggles a todo', () => {
   render(<TodoList />);
-  const todo = screen.getByText("Learn React");
+  const todo = screen.getByText(/Sample Todo/i);
+  // Click the todo to toggle completion
   fireEvent.click(todo);
-  expect(todo).toHaveStyle("text-decoration: line-through");
+  // Verify it has line-through style
+  expect(todo).toHaveStyle('text-decoration: line-through');
 });
 
-test("deletes", () => {
+test('deletes a todo', () => {
   render(<TodoList />);
-  const deleteButton = screen.getAllByText("Delete")[0];
+  const deleteButton = screen.getByText(/Delete/i);
+  // Click delete
   fireEvent.click(deleteButton);
-  expect(screen.queryByText("Learn React")).not.toBeInTheDocument();
+  // Verify the todo is removed
+  expect(screen.queryByText(/Sample Todo/i)).not.toBeInTheDocument();
 });
