@@ -1,16 +1,17 @@
 import { useQuery } from "react-query";
 
+// Define fetchPosts function explicitly
+const fetchPosts = async () => {
+  const res = await fetch("https://jsonplaceholder.typicode.com/posts");
+  return res.json();
+};
+
 function PostsComponent() {
-  const { data, error, isLoading, refetch } = useQuery(
-    "posts",
-    async () => {
-      const res = await fetch("https://jsonplaceholder.typicode.com/posts");
-      return res.json();
-    }
-  );
+  // Include isError in destructuring
+  const { data, isLoading, isError, refetch } = useQuery("posts", fetchPosts);
 
   if (isLoading) return <p>Loading posts...</p>;
-  if (error) return <p>Error fetching posts</p>;
+  if (isError) return <p>Error fetching posts</p>;
 
   return (
     <div>
