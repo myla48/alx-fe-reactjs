@@ -2,13 +2,13 @@ import { render, screen, fireEvent } from "@testing-library/react";
 import "@testing-library/jest-dom";
 import TodoList from "../components/TodoList";
 
-test("renders initial todos", () => {
+test("renders", () => {
   render(<TodoList />);
   expect(screen.getByText("Learn React")).toBeInTheDocument();
   expect(screen.getByText("Build a project")).toBeInTheDocument();
 });
 
-test("adds a new todo", () => {
+test("adds", () => {
   render(<TodoList />);
   fireEvent.change(screen.getByPlaceholderText("Add a new todo"), {
     target: { value: "Write tests" }
@@ -17,14 +17,14 @@ test("adds a new todo", () => {
   expect(screen.getByText("Write tests")).toBeInTheDocument();
 });
 
-test("toggles a todo", () => {
+test("toggles", () => {
   render(<TodoList />);
   const todo = screen.getByText("Learn React");
   fireEvent.click(todo);
   expect(todo).toHaveStyle("text-decoration: line-through");
 });
 
-test("deletes a todo", () => {
+test("deletes", () => {
   render(<TodoList />);
   const deleteButton = screen.getAllByText("Delete")[0];
   fireEvent.click(deleteButton);
